@@ -1,14 +1,10 @@
-import { useEffect, useState } from 'react';
-import React from 'react';
-import { useRouter } from 'next/router';
+import { useEffect, useState } from "react";
+import React from "react";
+import { useRouter } from "next/router";
+import { motion } from "framer-motion";
 
-import ArtworkCard from '@/components/globalArtIconsComponents/ArtworkCard';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import ArtworkCard from "@/components/globalArtIconsComponents/ArtworkCard";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
@@ -20,14 +16,14 @@ const GlobalArtIconsPage = () => {
   useEffect(() => {
     const fetchGlobalArtIcons = async () => {
       try {
-        const response = await fetch('/api/global');
+        const response = await fetch("/api/global");
         if (!response.ok) {
-          throw new Error('Failed to fetch artworks');
+          throw new Error("Failed to fetch artworks");
         }
         const data = await response.json();
         setGlobalArtIcons(data);
       } catch (error) {
-        console.error('Error fetching global art icons:', error);
+        console.error("Error fetching global art icons:", error);
       }
     };
 
@@ -43,21 +39,37 @@ const GlobalArtIconsPage = () => {
   return (
     <ScrollArea className="min-h-screen py-10 px-4 bg-white text-black font-serif">
       <div className="max-w-5xl mx-auto font-serif mt-20">
-        <Card className="mb-8  text-center shadow-md rounded-full font-serif">
-          <CardHeader>
-            <CardTitle className="text-3xl tracking-wide text-black font-serif">Global Art Icons</CardTitle>
-          </CardHeader>
-        </Card>
+    <motion.div
+      className="text-3xl tracking-wide text-black font-serif text-center my-8"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      Global Art Icons
+    </motion.div>
+
         <Separator className="mb-6" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {globalArtIcons.length > 0 && globalArtIcons.map((art) => (
-            <ArtworkCard
-              key={art._id}
-              art={art}
-              onClick={() => handleViewDetails(art)}
-            />
-          ))}
-        </div>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          {globalArtIcons.length > 0 &&
+            globalArtIcons.map((art, index) => (
+              <motion.div
+                key={art._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <ArtworkCard
+                  art={art}
+                  onClick={() => handleViewDetails(art)}
+                />
+              </motion.div>
+            ))}
+        </motion.div>
       </div>
     </ScrollArea>
   );

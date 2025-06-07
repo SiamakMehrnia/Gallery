@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
 const formatToJpg = (url) => url?.replace("/upload/", "/upload/f_jpg/");
 
 export default function ArtistDetailContent({ artist }) {
+  const featuredImageRef = useRef(null);
+
   const [featuredImage, setFeaturedImage] = useState({
     src: formatToJpg(artist.image1),
     desc: artist.desc1,
@@ -25,13 +27,13 @@ export default function ArtistDetailContent({ artist }) {
             </button>
           </Link>
         </div>
-        <div className="max-w-5xl mx-auto bg-white p-6 md:p-10 rounded-3xl shadow-2xl border border-gray-300 space-y-8">
+        <div className="max-w-5xl mx-auto bg-white p-6 md:p-10 rounded-3xl   space-y-8">
           {/* <img
             src={artist.image}
             alt={artist.title}
             className="w-full h-64 md:h-96 object-cover rounded-xl border-4 border-gray-600 shadow-xl"
           /> */}
-          <h1 className="text-4xl md:text-5xl font-serif font-bold mb-2 text-center ">{artist.title}</h1>
+          <h1 className="text-4xl md:text-5xl font-serif  mb-2 text-center ">{artist.title}</h1>
           <p className="text-gray-800 text-center leading-relaxed font-light text-base md:text-lg italic font-serif">{artist.description}</p>
           
           <AnimatePresence mode="wait">
@@ -43,11 +45,12 @@ export default function ArtistDetailContent({ artist }) {
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.5 }}
                 className="mb-8"
+                ref={featuredImageRef}
               >
                 <img
                   src={featuredImage.src}
                   alt="Main Artwork"
-                  className="w-full max-h-[600px] object-cover rounded-xl shadow-xl border-4 border-gray-500"
+                  className="w-full max-h-[600px] object-cover rounded-xl shadow-xl "
                 />
                 <p className="mt-2 text-gray-700 italic text-center">{featuredImage.desc}</p>
               </motion.div>
@@ -66,28 +69,29 @@ export default function ArtistDetailContent({ artist }) {
               }, [controls, inView]);
 
               return (
-                <motion.div
-                  key={n}
-                  ref={ref}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={controls}
-                  exit={{ opacity: 0, y: -40 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                  className=" rounded overflow-hidden  cursor-pointer"
-                  onClick={() =>
-                    setFeaturedImage({
-                      src: formatToJpg(artist[`image${n}`]),
-                      desc: artist[`desc${n}`],
-                    })
-                  }
-                >
-                  <img
-                    src={formatToJpg(artist[`image${n}`])}
-                    alt={`Artwork ${n}`}
-                    className="w-full h-40 object-cover"
-                  />
-                  <p className="p-2 text-sm text-gray-600 italic">{artist[`desc${n}`]}</p>
-                </motion.div>
+                <div key={n} ref={ref}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={controls}
+                    exit={{ opacity: 0, y: -40 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className=" rounded overflow-hidden  cursor-pointer"
+                    onClick={() => {
+                      setFeaturedImage({
+                        src: formatToJpg(artist[`image${n}`]),
+                        desc: artist[`desc${n}`],
+                      });
+                      featuredImageRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                  >
+                    <img
+                      src={formatToJpg(artist[`image${n}`])}
+                      alt={`Artwork ${n}`}
+                      className="w-full h-40 object-cover"
+                    />
+                    {/* <p className="p-2 text-sm text-gray-600 italic">{artist[`desc${n}`]}</p> */}
+                  </motion.div>
+                </div>
               );
             })}
           </div>

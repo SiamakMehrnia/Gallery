@@ -2,7 +2,7 @@
 
 export default function AdminLayout({ children }) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#fefaf6] to-[#fdf8f2] p-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#fefaf6] to-[#fdf8f2] p-6 mt-20">
       <div className="max-w-6xl mx-auto">
         <header className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-[#3d2e1e]">🎨 Admin Dashboard</h1>
