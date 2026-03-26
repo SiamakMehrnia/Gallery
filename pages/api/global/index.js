@@ -38,6 +38,9 @@ export default async function handler(req, res) {
         if (!file || !file.filepath) return null;
         const uploaded = await cloudinary.uploader.upload(file.filepath, {
           folder: "Gallery",
+          transformation: [
+            { fetch_format: "auto", quality: "auto" }
+          ],
         });
         fs.unlinkSync(file.filepath);
         return {
