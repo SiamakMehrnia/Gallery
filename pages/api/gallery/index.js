@@ -32,10 +32,6 @@ export default async function handler(req, res) {
           .status(500)
           .json({ error: "Error parsing form data", details: err.message });
       }
-      console.log("GALLERY API HIT");
-      console.log("FIELDS KEYS:", Object.keys(fields || {}));
-      console.log("FILES KEYS:", Object.keys(files || {}));
-      console.log("FILES.IMAGE RAW:", files?.image || null);
 
       const getSingleFile = (file) => {
         if (!file) return null;
@@ -55,11 +51,6 @@ export default async function handler(req, res) {
       const file5 = getSingleFile(files.image5);
 
       if (!mainFile || !mainFile.filepath) {
-        console.log("MAIN FILE INVALID", {
-          fileKeys: Object.keys(files || {}),
-          imageValue: files?.image || null,
-          normalizedMainFile: mainFile || null,
-        });
         return res.status(400).json({
           error: "Main image file is missing or invalid.",
           fileKeys: Object.keys(files || {}),
@@ -72,6 +63,8 @@ export default async function handler(req, res) {
 
           const uploaded = await cloudinary.uploader.upload(file.filepath, {
             folder: "Gallery",
+            resource_type: "auto",
+            format: "jpg",
           });
 
           return {
@@ -114,7 +107,6 @@ export default async function handler(req, res) {
         const result = await FeaturedArtist.create(newItem);
         return res.status(201).json({ message: "Artwork uploaded", data: result });
       } catch (error) {
-        console.error("UPLOAD ERROR:", error);
         return res
           .status(500)
           .json({ error: "Failed to upload artwork", details: error.message });
