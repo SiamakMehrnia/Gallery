@@ -38,6 +38,11 @@ export default async function handler(req, res) {
         return Array.isArray(file) ? file[0] : file;
       };
 
+      const getFilePath = (file) => {
+        if (!file) return null;
+        return file.filepath || file.path || null;
+      };
+
       const getFieldValue = (field) => {
         if (!field) return "";
         return Array.isArray(field) ? field[0] : field;
@@ -50,18 +55,31 @@ export default async function handler(req, res) {
       const file4 = getSingleFile(files.image4);
       const file5 = getSingleFile(files.image5);
 
-      if (!mainFile || !mainFile.filepath) {
+      const mainFilePath = getFilePath(mainFile);
+
+      if (!mainFile || !mainFilePath) {
         return res.status(400).json({
           error: "Main image file is missing or invalid.",
           fileKeys: Object.keys(files || {}),
+          imageMeta: mainFile
+            ? {
+                originalFilename: mainFile.originalFilename || null,
+                mimetype: mainFile.mimetype || null,
+                filepath: mainFile.filepath || null,
+                path: mainFile.path || null,
+              }
+            : null,
         });
       }
 
       try {
         const uploadToCloudinary = async (file) => {
-          if (!file || !file.filepath) return null;
+          if (!file) return null;
 
-          const uploaded = await cloudinary.uploader.upload(file.filepath, {
+          const filePath = getFilePath(file);
+          if (!filePath) return null;
+
+          const uploaded = await cloudinary.uploader.upload(filePath, {
             folder: "Gallery",
             resource_type: "auto",
             format: "jpg",
