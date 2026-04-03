@@ -57,10 +57,25 @@ export default function GalleryArtForm({ onSubmit, initialData }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
+
+    // DEBUG: log formData before sending
+    console.log("FORM STATE:", formData);
+
+    // ensure main image is always appended first
+    if (formData.image) {
+      data.append("image", formData.image);
+    }
+
     for (let key in formData) {
+      if (key === "image") continue; // already handled
       if (formData[key] !== null && formData[key] !== "") {
         data.append(key, formData[key]);
       }
+    }
+
+    // DEBUG: log FormData entries
+    for (const pair of data.entries()) {
+      console.log("FORMDATA:", pair[0], pair[1]);
     }
 
     try {
@@ -72,9 +87,15 @@ export default function GalleryArtForm({ onSubmit, initialData }) {
         }
       );
 
-      if (!response.ok) throw new Error("Failed to submit");
+      const raw = await response.text();
+      console.log("STATUS:", response.status);
+      console.log("RAW RESPONSE:", raw);
 
-      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(`Failed to submit | status: ${response.status} | ${raw}`);
+      }
+
+      const result = JSON.parse(raw);
       console.log("Success:", result);
       Swal.fire({
         icon: 'success',
