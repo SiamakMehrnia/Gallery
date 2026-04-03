@@ -20,6 +20,10 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Failed to fetch data", details: error.message });
     }
   } else if (req.method === "POST") {
+    if (req.query.test === "1") {
+      return res.status(200).json({ ok: true, message: "POST works" });
+    }
+
     const form = new IncomingForm({
       multiples: true,
       uploadDir: "/tmp",
