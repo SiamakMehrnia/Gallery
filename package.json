@@ -16,6 +16,7 @@
     "clsx": "^2.1.1",
     "formidable": "^2.0.1",
     "framer-motion": "^12.16.0",
+    "heic2any": "^0.0.4",
     "lucide-react": "^0.511.0",
     "mongodb": "^6.16.0",
     "mongoose": "^8.15.1",
