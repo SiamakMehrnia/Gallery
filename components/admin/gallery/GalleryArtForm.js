@@ -54,36 +54,6 @@ export default function GalleryArtForm({ onSubmit, initialData }) {
     }));
   };
 
-  const convertIfHeic = async (file) => {
-    if (!file) return null;
-
-    const isHeic = file.type === "image/heic" || file.name.toLowerCase().endsWith(".heic");
-    if (!isHeic) return file;
-
-    if (typeof window === "undefined") {
-      return file;
-    }
-
-    try {
-      const { default: heic2any } = await import("heic2any");
-
-      const converted = await heic2any({
-        blob: file,
-        toType: "image/jpeg",
-        quality: 0.8,
-      });
-
-      const blob = Array.isArray(converted) ? converted[0] : converted;
-
-      return new File([blob], file.name.replace(/\.heic$/i, ".jpg"), {
-        type: "image/jpeg",
-      });
-    } catch (err) {
-      console.error("HEIC conversion failed:", err);
-      return null;
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -91,26 +61,15 @@ export default function GalleryArtForm({ onSubmit, initialData }) {
     // DEBUG: log formData before sending
     console.log("FORM STATE:", formData);
 
-    // process main image
+    // ensure main image is always appended first
     if (formData.image) {
-      const processedMain = await convertIfHeic(formData.image);
-      if (processedMain) data.append("image", processedMain);
+      data.append("image", formData.image);
     }
 
-    // process other fields
     for (let key in formData) {
-      if (key === "image") continue;
-
-      const value = formData[key];
-
-      if (!value || value === "") continue;
-
-      // if it's a file field
-      if (key.startsWith("image")) {
-        const processed = await convertIfHeic(value);
-        if (processed) data.append(key, processed);
-      } else {
-        data.append(key, value);
+      if (key === "image") continue; // already handled
+      if (formData[key] !== null && formData[key] !== "") {
+        data.append(key, formData[key]);
       }
     }
 
