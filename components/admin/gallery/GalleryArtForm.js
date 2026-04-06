@@ -58,8 +58,7 @@ export default function GalleryArtForm({ onSubmit, initialData }) {
     e.preventDefault();
     const data = new FormData();
 
-    // DEBUG: log formData before sending
-    console.log("FORM STATE:", formData);
+    
 
     // ensure main image is always appended first
     if (formData.image) {
@@ -74,9 +73,9 @@ export default function GalleryArtForm({ onSubmit, initialData }) {
     }
 
     // DEBUG: log FormData entries
-    for (const pair of data.entries()) {
-      console.log("FORMDATA:", pair[0], pair[1]);
-    }
+    // for (const pair of data.entries()) {
+    //   console.log("FORMDATA:", pair[0], pair[1]);
+    // }
 
     try {
       const response = await fetch(
