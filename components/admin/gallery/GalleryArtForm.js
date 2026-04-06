@@ -1,6 +1,5 @@
 import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
-import heic2any from "heic2any";
 
 export default function GalleryArtForm({ onSubmit, initialData }) {
   const [formData, setFormData] = useState({
@@ -61,7 +60,13 @@ export default function GalleryArtForm({ onSubmit, initialData }) {
     const isHeic = file.type === "image/heic" || file.name.toLowerCase().endsWith(".heic");
     if (!isHeic) return file;
 
+    if (typeof window === "undefined") {
+      return file;
+    }
+
     try {
+      const { default: heic2any } = await import("heic2any");
+
       const converted = await heic2any({
         blob: file,
         toType: "image/jpeg",
@@ -70,11 +75,9 @@ export default function GalleryArtForm({ onSubmit, initialData }) {
 
       const blob = Array.isArray(converted) ? converted[0] : converted;
 
-      return new File(
-        [blob],
-        file.name.replace(/\.heic$/i, ".jpg"),
-        { type: "image/jpeg" }
-      );
+      return new File([blob], file.name.replace(/\.heic$/i, ".jpg"), {
+        type: "image/jpeg",
+      });
     } catch (err) {
       console.error("HEIC conversion failed:", err);
       return null;
