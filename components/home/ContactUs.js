@@ -22,7 +22,7 @@ export default function ContactUs() {
       <p className="text-gray-700 leading-relaxed">
         Have questions, feedback, or looking to start a creative collaboration with us? We're always open to new ideas and partnerships. Please don't hesitate to get in touch. 
         You can reach us by email at 
-        <a href="mailto:info@artgallery.com" className="text-blue-600 underline"> info@artgallery.com</a>. 
+        <a href="mailto:info@artgallery.com" className="text-blue-600 underline">Eftekhari.afsa@gmail.com</a>. 
         We look forward to hearing from you and exploring the possibilities together.
       </p>
     </motion.section>

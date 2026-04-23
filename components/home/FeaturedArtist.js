@@ -24,7 +24,7 @@ export default function FeaturedArtist() {
           className="w-full md:w-1/2"
         >
           <img
-            src="https://www.shutterstock.com/image-photo/cheerful-brunette-business-woman-student-600nw-2246174263.jpg"
+            src="https://res.cloudinary.com/dr5h0ms9o/image/upload/v1776956442/k7ultpkzvm7b1py9ho7x.png"
             alt="Featured Artist"
             className="w-full h-auto object-cover rounded-xl "
           />
@@ -38,7 +38,7 @@ export default function FeaturedArtist() {
         >
           <h2 className="text-3xl  mb-4">Featured Artist</h2>
           <p className="text-gray-700 leading-relaxed">
-            Meet <strong>Alexandra Monroe</strong>, a contemporary painter known for her emotionally resonant abstract works...
+            Meet <strong>Afsaneh Eftekhari</strong>, A passionate artist with more than 15 years of experience, bringing emotion and personality into every piece she creates.
           </p>
         </motion.div>
       </div>

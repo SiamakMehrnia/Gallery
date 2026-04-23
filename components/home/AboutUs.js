@@ -20,7 +20,11 @@ export default function AboutUs() {
     >
       <h2 className="text-2xl text-black mb-4">About Us</h2>
       <p className="text-gray-700 leading-relaxed">
-        Welcome to our online art gallery — a curated space where creativity, culture, and expression converge. We proudly showcase a diverse collection of contemporary and classical works from both emerging and established artists. Our mission is to inspire, connect, and bring meaningful art experiences to a global audience through a seamless digital platform. Join us in celebrating artistic vision and storytelling across borders and generations.
+     With nearly 15 years of experience in painting, she has dedicated her artistic journey to creating works that reflect emotion, elegance, and individuality. Her passion for art is rooted in a deep appreciation for beauty, detail, and personal expression, allowing each piece to carry its own unique story.
+
+Over the years, she has developed a distinctive style shaped by experience, creativity, and a strong connection to her craft. Her work is not only a reflection of technical skill, but also of a genuine love for painting and the meaningful atmosphere that art can bring into a space.
+
+Through every artwork, she aims to inspire, connect, and leave a lasting impression, offering pieces that are both visually captivating and personally resonant. and bring meaningful art experiences to a global audience through a seamless digital platform. Join us in celebrating artistic vision and storytelling across borders and generations.
       </p>
     </motion.section>
   );

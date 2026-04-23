@@ -17,7 +17,7 @@ export default function WelcomeSection() {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="text-center   text-black"
     >
-      <h1 className="text-4xl  tracking-tight">Welcome to the Gallery</h1>
+      <h1 className="text-4xl  tracking-tight">Welcome to the Gallery Afsaneh</h1>
       <p className="mt-2 text-lg">Where art meets inspiration</p>
     </motion.div>
   );
