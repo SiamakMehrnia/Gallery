@@ -85,8 +85,8 @@ export default async function handler(req, res) {
 
           const uploaded = await cloudinary.uploader.upload(filePath, {
             folder: "Gallery",
-            resource_type: "auto",
-            format: "jpg",
+            resource_type: "image",
+            transformation: [{ fetch_format: "auto" }, { quality: "auto" }],
           });
 
           return {
@@ -95,12 +95,16 @@ export default async function handler(req, res) {
           };
         };
 
-        const mainImage = await uploadToCloudinary(mainFile);
-        const img1 = await uploadToCloudinary(file1);
-        const img2 = await uploadToCloudinary(file2);
-        const img3 = await uploadToCloudinary(file3);
-        const img4 = await uploadToCloudinary(file4);
-        const img5 = await uploadToCloudinary(file5);
+        const uploads = await Promise.all([
+          uploadToCloudinary(mainFile),
+          uploadToCloudinary(file1),
+          uploadToCloudinary(file2),
+          uploadToCloudinary(file3),
+          uploadToCloudinary(file4),
+          uploadToCloudinary(file5),
+        ]);
+
+        const [mainImage, img1, img2, img3, img4, img5] = uploads;
 
         if (!mainImage) {
           return res.status(400).json({ error: "Main image is required." });
