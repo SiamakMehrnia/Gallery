@@ -50,7 +50,7 @@ export default function ArtistDetailContent({ artist }) {
                 <img
                   src={featuredImage.src}
                   alt="Main Artwork"
-                  className="w-full max-h-[600px] object-cover rounded-xl shadow-xl "
+                  className="w-full max-h-[600px] object-fit rounded-xl shadow-xl "
                 />
                 <p className="mt-2 text-gray-700 italic text-center">{featuredImage.desc}</p>
               </motion.div>
